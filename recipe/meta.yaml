@@ -15,7 +15,7 @@ build:
     - jupyter-nbconvert = nbconvert.nbconvertapp:main
 
 requirements:
-  build:
+  host:
     - python
     - pip
   run:
