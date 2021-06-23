@@ -13,17 +13,20 @@ build:
   script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv
   entry_points:
     - jupyter-nbconvert = nbconvert.nbconvertapp:main
+  skip: True  #[py<37]
 
 requirements:
   host:
     - python
     - pip
+    - wheel
+    - setuptools
   run:
     - python
-    - mistune >=0.8.1
+    - mistune >=0.8.1,<2
     - jinja2 >=2.4
     - pygments >=2.4.1
-    - traitlets >=4.2
+    - traitlets >=5.0
     - jupyter_core
     - nbformat >=4.4
     - entrypoints >=0.2.2
@@ -31,7 +34,6 @@ requirements:
     - pandocfilters >=1.4.1
     - testpath
     - defusedxml
-    - pandoc >=1.12.1  # [not aarch64]
     - nbclient >=0.5.0,<0.6.0
     - jupyterlab_pygments
   run_constrained:
@@ -51,7 +53,10 @@ test:
   source_files:
     - nbconvert/tests/files/notebook1.ipynb
 
+  requires:
+    - pip
   commands:
+    - pip check
     - jupyter nbconvert --help
     - jupyter nbconvert nbconvert/tests/files/notebook1.ipynb --to html
 
@@ -59,6 +64,7 @@ about:
   home: http://jupyter.org
   license: BSD-3-Clause
   license_file: LICENSE
+  license_family: BSD
   summary: Converting Jupyter Notebooks
   description: |
     The nbconvert tool, jupyter nbconvert, converts notebooks to various other
