@@ -1,4 +1,4 @@
-{% set version = "6.2.0" %}
+{% set version = "6.3.0" %}
 
 package:
   name: nbconvert
@@ -6,13 +6,14 @@ package:
 
 source:
   url: https://pypi.io/packages/source/n/nbconvert/nbconvert-{{ version }}.tar.gz
-  sha256: 16ceecd0afaa8fd26c245fa32e2c52066c02f13aa73387fffafd84750baea863
+  sha256: 5e77d6203854944520105e38f2563a813a4a3708e8563aa598928a3b5ee1081a
 
 build:
   number: 0
   script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv
   entry_points:
     - jupyter-nbconvert = nbconvert.nbconvertapp:main
+    - jupyter-dejavu = nbconvert.nbconvertapp:dejavu_main
   skip: True  #[py<37]
 
 requirements:
