@@ -40,6 +40,7 @@ requirements:
     - pandocfilters >=1.4.1
     - pygments >=2.4.1
     - traitlets >=5.0
+    - tinycss2
   run_constrained:
     - pyppeteer >=1,<1.1
 
