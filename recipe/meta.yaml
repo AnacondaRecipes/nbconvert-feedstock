@@ -71,7 +71,7 @@ about:
   license: BSD-3-Clause
   license_file: LICENSE
   license_family: BSD
-  license_url: https://github.com/jupyter/nbconvert/blob/6.5.3/LICENSE
+  license_url: https://github.com/jupyter/nbconvert/blob/{{ version }}/LICENSE
   summary: Converting Jupyter Notebooks
   description: |
     The nbconvert tool, jupyter nbconvert, converts notebooks to various other
@@ -79,6 +79,7 @@ about:
     .ipynb notebook file into various static formats.
   doc_url: https://nbconvert.readthedocs.io/en/latest/
   dev_url: https://github.com/jupyter/nbconvert
+  doc_source_url: https://github.com/jupyter/nbconvert/tree/{{ version }}/docs
 
 extra:
   recipe-maintainers:
