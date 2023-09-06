@@ -1,4 +1,4 @@
-{% set version = "6.5.4" %}
+{% set version = "7.8.0" %}
 
 package:
   name: nbconvert
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/n/nbconvert/nbconvert-{{ version }}.tar.gz
-  sha256: 9e3c7c6d491374cbdd5f35d268c05809357716d346f4573186bbeab32ee50bc1
+  sha256: f5bc15a1247e14dd41ceef0c0a3bc70020e016576eb0578da62f1c5b4f950479
 
 build:
   number: 0
@@ -20,8 +20,7 @@ requirements:
   host:
     - python
     - pip
-    - wheel
-    - setuptools
+    - hatchling
   run:
     - python
     - beautifulsoup4
