@@ -65,8 +65,10 @@ test:
     - flaky
   commands:
     - pip check
-    - jupyter nbconvert --help
-    - pytest -vv
+    - jupyter nbconvert --help    
+    - jupyter nbconvert tests/files/notebook1.ipynb --to html
+    # skipping test_post_processor and test_convert_full_qualified_name as they expect tests to be a module
+    - pytest -v -k "not (test_post_processor or test_convert_full_qualified_name)"
 
 about:
   home: https://nbconvert.readthedocs.io
