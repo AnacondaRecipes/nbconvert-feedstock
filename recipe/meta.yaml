@@ -11,7 +11,7 @@ source:
 
 build:
   number: 0
-  script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vv
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
   entry_points:
     - jupyter-nbconvert = nbconvert.nbconvertapp:main
     - jupyter-dejavu = nbconvert.nbconvertapp:dejavu_main
@@ -21,7 +21,7 @@ requirements:
   host:
     - python
     - pip
-    - hatchling
+    - hatchling >=1.5
   run:
     - python
     - beautifulsoup4
