@@ -1,48 +1,48 @@
-{% set version = "6.5.4" %}
+{% set name = "nbconvert" %}
+{% set version = "7.10.0" %}
 
 package:
-  name: nbconvert
+  name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/n/nbconvert/nbconvert-{{ version }}.tar.gz
-  sha256: 9e3c7c6d491374cbdd5f35d268c05809357716d346f4573186bbeab32ee50bc1
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/nbconvert-{{ version }}.tar.gz
+  sha256: 4bedff08848626be544de193b7594d98a048073f392178008ff4f171f5e21d26
 
 build:
   number: 0
-  script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
   entry_points:
     - jupyter-nbconvert = nbconvert.nbconvertapp:main
     - jupyter-dejavu = nbconvert.nbconvertapp:dejavu_main
-  skip: True  #[py<37]
+  skip: True  #[py<38]
 
 requirements:
   host:
     - python
     - pip
-    - wheel
-    - setuptools
+    - hatchling >=1.5
   run:
     - python
     - beautifulsoup4
-    - bleach
+    - bleach !=5.0.0
     - defusedxml
-    - entrypoints >=0.2.2
+    - importlib-metadata >=3.6  # [py<310]
     - jinja2 >=3.0
     - jupyter_core >=4.7
     - jupyterlab_pygments
-    - lxml
     - markupsafe >=2.0
-    - mistune >=0.8.1,<2
+    - mistune >=2.0.3,<4
     - nbclient >=0.5.0
-    - nbformat >=5.1
+    - nbformat >=5.7
     - packaging
     - pandocfilters >=1.4.1
     - pygments >=2.4.1
-    - traitlets >=5.0
+    - traitlets >=5.1
     - tinycss2
   run_constrained:
-    - pyppeteer >=1,<1.1
+    - pyqtwebengine >=5.15
+    - tornado >=6.1
 
 test:
   imports:
@@ -52,22 +52,26 @@ test:
     - nbconvert.postprocessors
     - nbconvert.preprocessors
     - nbconvert.resources
-    - nbconvert.tests
     - nbconvert.utils
     - nbconvert.writers
   source_files:
-    - nbconvert/tests/files/notebook1.ipynb
-
+    - tests
   requires:
     - pip
-    - beautifulsoup4
+    - pytest
+    - pytest-dependency
+    - ipykernel
+    - ipywidgets >=7
+    - flaky
   commands:
     - pip check
-    - jupyter nbconvert --help
-    - jupyter nbconvert nbconvert/tests/files/notebook1.ipynb --to html
+    - jupyter nbconvert --help    
+    - jupyter nbconvert tests/files/notebook1.ipynb --to html
+    # skipping test_post_processor and test_convert_full_qualified_name as they expect tests to be a module
+    - pytest -v -k "not (test_post_processor or test_convert_full_qualified_name)"
 
 about:
-  home: https://nbconvert.readthedocs.io/en/latest/
+  home: https://nbconvert.readthedocs.io
   license: BSD-3-Clause
   license_file: LICENSE
   license_family: BSD
@@ -76,7 +80,7 @@ about:
     The nbconvert tool, jupyter nbconvert, converts notebooks to various other
     formats via Jinja templates. The nbconvert tool allows you to convert an
     .ipynb notebook file into various static formats.
-  doc_url: https://nbconvert.readthedocs.io/en/latest/
+  doc_url: https://nbconvert.readthedocs.io
   dev_url: https://github.com/jupyter/nbconvert
 
 extra:
