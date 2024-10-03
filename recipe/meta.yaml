@@ -1,21 +1,21 @@
 {% set name = "nbconvert" %}
-{% set version = "7.10.0" %}
+{% set version = "7.16.4" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/nbconvert-{{ version }}.tar.gz
-  sha256: 4bedff08848626be544de193b7594d98a048073f392178008ff4f171f5e21d26
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 86ca91ba266b0a448dc96fa6c5b9d98affabde2867b363258703536807f9f7f4
 
 build:
   number: 0
+  skip: True  #[py<38]
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
   entry_points:
     - jupyter-nbconvert = nbconvert.nbconvertapp:main
     - jupyter-dejavu = nbconvert.nbconvertapp:dejavu_main
-  skip: True  #[py<38]
 
 requirements:
   host:
@@ -58,14 +58,16 @@ test:
     - tests
   requires:
     - pip
-    - pytest
-    - pytest-dependency
+    - pytest >=7
     - ipykernel
     - ipywidgets >=7
     - flaky
   commands:
     - pip check
-    - jupyter nbconvert --help    
+    - jupyter nbconvert --version
+    - jupyter dejavu --version
+    - jupyter nbconvert --help
+    - jupyter dejavu --help
     - jupyter nbconvert tests/files/notebook1.ipynb --to html
     # skipping test_post_processor and test_convert_full_qualified_name as they expect tests to be a module
     - pytest -v -k "not (test_post_processor or test_convert_full_qualified_name)"
