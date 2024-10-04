@@ -11,7 +11,9 @@ source:
 
 build:
   number: 0
-  skip: True  #[py<38]
+  # An indirect jupyterlab dependency through ipywidgets -> jupyterlab_widgets
+  # isn't available on s390x
+  skip: True  #[py<38 or s390x]
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
   entry_points:
     - jupyter-nbconvert = nbconvert.nbconvertapp:main
