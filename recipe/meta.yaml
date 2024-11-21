@@ -34,10 +34,6 @@ requirements:
   run:
     - python
 
-test:
-  commands:
-    - echo "tests in outputs"
-
 outputs:
   - name: nbconvert
     build:
@@ -132,6 +128,8 @@ outputs:
   - name: nbconvert-qtpdf
     build:
       noarch: generic
+      # qtpdf requires xelatex on linux and PasteBoard on osx
+      skip: True
     requirements:
       run:
         - {{ pin_subpackage("nbconvert-core", exact=True) }}
@@ -150,8 +148,12 @@ outputs:
         - jupyter dejavu --version
         - jupyter nbconvert --help
         - jupyter dejavu --help
-        - jupyter nbconvert tests/files/notebook2.ipynb --debug --to qtpdf  # [not linux]
-        - xvfb-run -a jupyter nbconvert tests/files/notebook1.ipynb --to qtpdf  # [linux]
+        # Segmantation fault on osx:
+        # PasteBoard: Error creating pasteboard: m.apple.pasteboard.clipboard [-4960]
+        #- jupyter nbconvert tests/files/notebook2.ipynb --debug --allow-errors --to qtpdf  # [not linux]
+        # xelatex is required on linux imlicitely, see https://github.com/jupyter/nbconvert/blob/v7.16.4/nbconvert/exporters/pdf.py#L62-L64 
+        # - xvfb-run -a jupyter nbconvert tests/files/notebook2.ipynb --debug --allow-errors --to qtpdf  # [linux]
+
     about:
       home: https://jupyter.org
       license: BSD-3-Clause
