@@ -193,7 +193,7 @@ outputs:
   - name: nbconvert-webpdf
     build:
       noarch: generic
-      # playwright-python is not
+      # playwright-python is not avaialble
       skip: True
     requirements:
       run:
@@ -223,8 +223,8 @@ outputs:
     requirements:
       run:
         - {{ pin_subpackage("nbconvert-core", exact=True) }}
-        - {{ pin_subpackage("nbconvert-qtpdf", exact=True) }}
-        - {{ pin_subpackage("nbconvert-webpdf", exact=True) }}
+        #- {{ pin_subpackage("nbconvert-qtpdf", exact=True) }}
+        #- {{ pin_subpackage("nbconvert-webpdf", exact=True) }}
         - {{ pin_subpackage("nbconvert", exact=True) }}
     test:
       source_files:
