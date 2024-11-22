@@ -6,8 +6,10 @@
 
 {% set build = 1 %}
 
-
-{% set pytest_args = "-k \"not (convert_full_qualified_name or post_processor)\"" %}
+# skipping test_post_processor and test_convert_full_qualified_name as they expect tests to be a module
+{% set pytest_args = "-k \"not (test_post_processor or test_convert_full_qualified_name)\"" %}  # [not win]
+# skipping test_convert_explicitly_relative_paths because it tries to access '/home/user/src' on Windows
+{% set pytest_args = "-k \"not (test_post_processor or test_convert_full_qualified_name or test_convert_explicitly_relative_paths)\"" %}  # [win]
 
 # handle undefined PYTHON in `noarch: generic` outputs
 {% if PYTHON is not defined %}{% set PYTHON = "$PYTHON" %}{% endif %}
@@ -117,10 +119,7 @@ outputs:
         - jupyter dejavu --help
         - jupyter notebook --generate-config  # [win]
         - jupyter nbconvert tests/files/notebook1.ipynb --to html
-        # skipping test_post_processor and test_convert_full_qualified_name as they expect tests to be a module
-        - pytest -v -k "not (test_post_processor or test_convert_full_qualified_name)"  # [not win]
-        # skipping test_convert_explicitly_relative_paths trying to access '/home/user/src' on Windows
-        - pytest -v -k "not (test_post_processor or test_convert_full_qualified_name or test_convert_explicitly_relative_paths)"  # [win]
+        - pytest -vv {{ pytest_args }}
     about:
       home: https://jupyter.org
       license: BSD-3-Clause
