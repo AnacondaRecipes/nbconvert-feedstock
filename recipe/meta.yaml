@@ -105,7 +105,7 @@ outputs:
         - pip
         - pytest >=7
         - ipykernel
-        - ipywidgets >=7
+        - ipywidgets >=7.5
         - flaky
       commands:
         - pip check
