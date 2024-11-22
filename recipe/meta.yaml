@@ -107,6 +107,8 @@ outputs:
         - ipykernel
         - ipywidgets >=7.5
         - flaky
+        # to generate config file
+        - notebook  # [win]
       commands:
         - pip check
         - jupyter nbconvert --version
