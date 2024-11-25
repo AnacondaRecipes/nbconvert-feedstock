@@ -109,15 +109,12 @@ outputs:
         - ipykernel
         - ipywidgets >=7.5
         - flaky
-        # to generate config file
-        - notebook  # [win]
       commands:
         - pip check
         - jupyter nbconvert --version
         - jupyter dejavu --version
         - jupyter nbconvert --help
         - jupyter dejavu --help
-        - jupyter notebook --generate-config  # [win]
         - jupyter nbconvert tests/files/notebook1.ipynb --to html
         - pytest -vv {{ pytest_args }}
     about:
@@ -234,7 +231,6 @@ outputs:
         - tests
         - pyproject.toml
       requires:
-        - coverage
         - flaky
         - ipykernel
         - ipywidgets >=7.9.0
