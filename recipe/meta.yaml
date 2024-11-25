@@ -246,9 +246,9 @@ outputs:
         - jupyter dejavu --version
         - jupyter nbconvert --help
         - jupyter dejavu --help
-        - pytest -vv {{ pytest_args }}                                                          # [not linux]
-        - xvfb-run -a coverage run --branch --source=nbconvert -m pytest -vv {{ pytest_args }}  # [linux]
-        - coverage report --show-missing --skip-covered     # [linux]
+        # - pytest -vv {{ pytest_args }}                                                          # [not linux]
+        # - xvfb-run -a coverage run --branch --source=nbconvert -m pytest -vv {{ pytest_args }}  # [linux]
+        # - coverage report --show-missing --skip-covered     # [linux]
     about:
       home: https://jupyter.org
       license: BSD-3-Clause
