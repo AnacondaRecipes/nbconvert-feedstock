@@ -230,7 +230,7 @@ outputs:
         - tests
         - pyproject.toml
       requires:
-        - overage
+        - coverage
         - flaky
         - ipykernel
         - ipywidgets >=7.9.0
