@@ -10,7 +10,8 @@
 # skipping test_post_processor and test_convert_full_qualified_name as they expect tests to be a module
 {% set pytest_args = "-k \"not (test_post_processor or test_convert_full_qualified_name)\"" %}  # [not win]
 # skipping test_convert_explicitly_relative_paths because it tries to access '/home/user/src' on Windows
-{% set pytest_args = "-k \"not (test_post_processor or test_convert_full_qualified_name or test_convert_explicitly_relative_paths)\"" %}  # [win]
+# skipping test_basic_execution or test_mixed_markdown_execution on win because of RuntimeWarning: Proactor event loop does not implement add_reader family of methods required for zmq.
+{% set pytest_args = "-k \"not (test_post_processor or test_convert_full_qualified_name or test_convert_explicitly_relative_paths or test_basic_execution or test_mixed_markdown_execution)\"" %}  # [win]
 
 # handle undefined PYTHON in `noarch: generic` outputs
 {% if PYTHON is not defined %}{% set PYTHON = "$PYTHON" %}{% endif %}
@@ -106,7 +107,6 @@ outputs:
         - tests
       requires:
         - pip
-        - pytest >=7
         - ipykernel
         - ipywidgets >=7.5
         - flaky
@@ -235,6 +235,7 @@ outputs:
         - ipykernel
         - ipywidgets >=7.9.0
         - pip
+        - pytest >=7
         - pytest-dependency
       commands:
         - pip check
