@@ -85,7 +85,6 @@ outputs:
         - traitlets >=5.1
         - tinycss2
       run_constrained:
-        - pyqtwebengine >=5.15
         - tornado >=6.1
         # other packages carry the full `run` dependency
         - pandoc >={{ min_pandoc }},<{{ max_pandoc }}
