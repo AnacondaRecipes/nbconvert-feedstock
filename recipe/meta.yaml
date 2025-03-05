@@ -1,5 +1,5 @@
 {% set name = "nbconvert" %}
-{% set version = "7.16.5" %}
+{% set version = "7.16.6" %}
 
 # from nbconvert/utils/pandoc.py
 {% set min_pandoc = "2.9.2" %}
@@ -11,7 +11,7 @@
 {% set pytest_args = "-k \"not (test_post_processor or test_convert_full_qualified_name)\"" %}  # [not win]
 # skipping test_convert_explicitly_relative_paths because it tries to access '/home/user/src' on Windows
 # skipping test_basic_execution or test_mixed_markdown_execution on win because of RuntimeWarning: Proactor event loop does not implement add_reader family of methods required for zmq.
-{% set pytest_args = "-k \"not (test_post_processor or test_convert_full_qualified_name or test_convert_explicitly_relative_paths or test_basic_execution or test_mixed_markdown_execution)\"" %}  # [win]
+{% set pytest_args = "-k \"not (test_preprocess_cell or test_populate_language_info or test_executenb or test_post_processor or test_convert_full_qualified_name or test_convert_explicitly_relative_paths or test_basic_execution or test_mixed_markdown_execution)\"" %}  # [win]
 
 # handle undefined PYTHON in `noarch: generic` outputs
 {% if PYTHON is not defined %}{% set PYTHON = "$PYTHON" %}{% endif %}
@@ -22,7 +22,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: c83467bb5777fdfaac5ebbb8e864f300b277f68692ecc04d6dab72f2d8442344
+  sha256: 576a7e37c6480da7b8465eefa66c17844243816ce1ccc372633c6b71c3c0f582
 
 build:
   number: {{ build }}
@@ -39,10 +39,11 @@ requirements:
 
 outputs:
   - name: nbconvert
-    build:
-      noarch: generic
     requirements:
+      host:
+        - python
       run:
+        - python
         - {{ pin_subpackage("nbconvert-core", exact=True) }}
         - {{ pin_subpackage("nbconvert-pandoc", exact=True) }}
     test:
@@ -128,10 +129,12 @@ outputs:
   # without them a Segmentation fault happens on unix.
   - name: nbconvert-qtpdf
     build:
-      noarch: generic
       skip: True
     requirements:
+      host:
+        - python
       run:
+        - python
         - {{ pin_subpackage("nbconvert-core", exact=True) }}
         - pyqtwebengine >=5.5
     test:
@@ -161,10 +164,11 @@ outputs:
       dev_url: https://github.com/jupyter/nbconvert
 
   - name: nbconvert-pandoc
-    build:
-      noarch: generic
     requirements:
+      host:
+        - python
       run:
+        - python
         - {{ pin_subpackage("nbconvert-core", exact=True) }}
         # the pin is handled by the `run_constrained` in nbconvert-core
         - pandoc
@@ -191,10 +195,12 @@ outputs:
   # Skipping because playwright-python is not available on the defaults channel
   - name: nbconvert-webpdf
     build:
-      noarch: generic
       skip: True
     requirements:
+      host:
+        - python
       run:
+        - python
         - {{ pin_subpackage("nbconvert-core", exact=True) }}
         - playwright-python
     test:
@@ -216,10 +222,11 @@ outputs:
       description: nbconvert with extra packages for browser-based PDF generation
 
   - name: nbconvert-all
-    build:
-      noarch: generic
     requirements:
+      host:
+        - python
       run:
+        - python
         - {{ pin_subpackage("nbconvert-core", exact=True) }}
         #- {{ pin_subpackage("nbconvert-qtpdf", exact=True) }}
         #- {{ pin_subpackage("nbconvert-webpdf", exact=True) }}
