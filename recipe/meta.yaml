@@ -1,5 +1,5 @@
 {% set name = "nbconvert" %}
-{% set version = "7.16.6" %}
+{% set version = "7.17.0" %}
 
 # from nbconvert/utils/pandoc.py
 {% set min_pandoc = "2.9.2" %}
@@ -22,7 +22,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 576a7e37c6480da7b8465eefa66c17844243816ce1ccc372633c6b71c3c0f582
+  sha256: 1b2696f1b5be12309f6c7d707c24af604b87dfaf6d950794c7b07acab96dda78
 
 build:
   number: {{ build }}
