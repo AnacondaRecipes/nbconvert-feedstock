@@ -26,9 +26,7 @@ source:
 
 build:
   number: {{ build }}
-  # An indirect jupyterlab dependency through ipywidgets -> jupyterlab_widgets
-  # isn't available on s390x
-  skip: True  #[py<38 or s390x]
+  skip: True  #[py<38]
 
 requirements:
   host:
@@ -152,7 +150,7 @@ outputs:
         # Segmantation fault on osx:
         # PasteBoard: Error creating pasteboard: m.apple.pasteboard.clipboard [-4960]
         #- jupyter nbconvert tests/files/notebook2.ipynb --debug --allow-errors --to qtpdf  # [not linux]
-        # xelatex is required on linux imlicitely, see https://github.com/jupyter/nbconvert/blob/v7.16.4/nbconvert/exporters/pdf.py#L62-L64 
+        # xelatex is required on linux imlicitely, see https://github.com/jupyter/nbconvert/blob/v7.16.4/nbconvert/exporters/pdf.py#L62-L64
         # - xvfb-run -a jupyter nbconvert tests/files/notebook2.ipynb --debug --allow-errors --to qtpdf  # [linux]
 
     about:
