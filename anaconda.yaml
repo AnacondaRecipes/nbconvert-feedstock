@@ -2,3 +2,10 @@ anaconda_config_version: 1
 upstream_sources:
   - pypi:
       identifier: nbconvert
+    packages:
+      - nbconvert
+      - nbconvert-all
+      - nbconvert-core
+      - nbconvert-pandoc
+      - nbconvert-qtpdf
+      - nbconvert-webpdf
