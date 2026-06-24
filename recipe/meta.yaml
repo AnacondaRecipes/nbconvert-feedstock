@@ -1,5 +1,5 @@
 {% set name = "nbconvert" %}
-{% set version = "7.17.0" %}
+{% set version = "7.17.1" %}
 
 # from nbconvert/utils/pandoc.py
 {% set min_pandoc = "2.9.2" %}
@@ -26,7 +26,7 @@ source:
 
 build:
   number: {{ build }}
-  skip: True  #[py<38]
+  skip: True  # [py<39]
 
 requirements:
   host:
@@ -259,7 +259,7 @@ outputs:
       dev_url: https://github.com/jupyter/nbconvert
 
 about:
-  home: https://nbconvert.readthedocs.io
+  home: https://jupyter.org
   license: BSD-3-Clause
   license_file: LICENSE
   license_family: BSD
