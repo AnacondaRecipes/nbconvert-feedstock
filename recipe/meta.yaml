@@ -234,13 +234,14 @@ outputs:
         - tests
         - pyproject.toml
       requires:
-        - coverage
-        - flaky
-        - ipykernel
-        - ipywidgets >=7.9.0
         - pip
+        # per optional-dependencies test
         - pytest >=7
-        - pytest-dependency
+        - ipykernel
+        - ipywidgets >=7.5.0
+        - flaky
+        # not explicitly called out but required
+        - coverage
       commands:
         - pip check
         - jupyter nbconvert --version
