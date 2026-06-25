@@ -1,5 +1,5 @@
 {% set name = "nbconvert" %}
-{% set version = "7.17.0" %}
+{% set version = "7.17.1" %}
 
 # from nbconvert/utils/pandoc.py
 {% set min_pandoc = "2.9.2" %}
@@ -22,11 +22,11 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 1b2696f1b5be12309f6c7d707c24af604b87dfaf6d950794c7b07acab96dda78
+  sha256: 34d0d0a7e73ce3cbab6c5aae8f4f468797280b01fd8bd2ca746da8569eddd7d2
 
 build:
   number: {{ build }}
-  skip: True  #[py<38]
+  skip: True  # [py<39]
 
 requirements:
   host:
@@ -234,13 +234,14 @@ outputs:
         - tests
         - pyproject.toml
       requires:
-        - coverage
-        - flaky
-        - ipykernel
-        - ipywidgets >=7.9.0
         - pip
+        # per optional-dependencies test
         - pytest >=7
-        - pytest-dependency
+        - ipykernel
+        - ipywidgets >=7.5.0
+        - flaky
+        # not explicitly called out but required
+        - coverage
       commands:
         - pip check
         - jupyter nbconvert --version
@@ -259,7 +260,7 @@ outputs:
       dev_url: https://github.com/jupyter/nbconvert
 
 about:
-  home: https://nbconvert.readthedocs.io
+  home: https://jupyter.org
   license: BSD-3-Clause
   license_file: LICENSE
   license_family: BSD
