@@ -5,13 +5,18 @@
 {% set min_pandoc = "2.9.2" %}
 {% set max_pandoc = "4.0.0" %}
 
-{% set build = 0 %}
+{% set build = 1 %}
 
 # skipping test_post_processor and test_convert_full_qualified_name as they expect tests to be a module
 {% set pytest_args = "-k \"not (test_post_processor or test_convert_full_qualified_name)\"" %}  # [not win]
 # skipping test_convert_explicitly_relative_paths because it tries to access '/home/user/src' on Windows
 # skipping test_basic_execution or test_mixed_markdown_execution on win because of RuntimeWarning: Proactor event loop does not implement add_reader family of methods required for zmq.
 {% set pytest_args = "-k \"not (test_preprocess_cell or test_populate_language_info or test_executenb or test_post_processor or test_convert_full_qualified_name or test_convert_explicitly_relative_paths or test_basic_execution or test_mixed_markdown_execution)\"" %}  # [win]
+
+# nbclient 0.5.x calls datetime.strptime("1", "%d") at import time, which raises a
+# DeprecationWarning on Python >=3.14; nbconvert's pyproject enables filterwarnings=error,
+# so ignore just that warning (a command-line filter takes precedence over the ini setting)
+{% set pytest_warn = "-W \"ignore:Parsing dates involving a day of month:DeprecationWarning\"" %}
 
 # handle undefined PYTHON in `noarch: generic` outputs
 {% if PYTHON is not defined %}{% set PYTHON = "$PYTHON" %}{% endif %}
@@ -77,6 +82,8 @@ outputs:
         - markupsafe >=2.0
         - mistune >=2.0.3,<4
         - nbclient >=0.5.0
+        # nbclient 0.5.x imports ipython_genutils but fails to declare it
+        - ipython_genutils
         - nbformat >=5.7
         - packaging
         - pandocfilters >=1.4.1
@@ -248,8 +255,8 @@ outputs:
         - jupyter dejavu --version
         - jupyter nbconvert --help
         - jupyter dejavu --help
-        - pytest -vv {{ pytest_args }}                                                          # [not linux]
-        - xvfb-run -a coverage run --branch --source=nbconvert -m pytest -vv {{ pytest_args }}  # [linux]
+        - pytest -vv {{ pytest_args }} {{ pytest_warn }}                                                          # [not linux]
+        - xvfb-run -a coverage run --branch --source=nbconvert -m pytest -vv {{ pytest_args }} {{ pytest_warn }}  # [linux]
         - coverage report --show-missing --skip-covered     # [linux]
     about:
       home: https://jupyter.org
