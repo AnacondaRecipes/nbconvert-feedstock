@@ -14,9 +14,6 @@
 # nbclient 0.5.x calls datetime.strptime("1", "%d") at import time, which raises a
 # DeprecationWarning on Python >=3.14; nbconvert's pyproject enables filterwarnings=error,
 # so ignore just that warning (a command-line filter takes precedence over the ini setting)
-# handle undefined PYTHON in `noarch: generic` outputs
-{% if PYTHON is not defined %}{% set PYTHON = "$PYTHON" %}{% endif %}
-
 package:
   name: {{ name|lower }}-meta
   version: {{ version }}
