@@ -15,17 +15,19 @@
 # DeprecationWarning on Python >=3.14; nbconvert's pyproject enables filterwarnings=error,
 # so ignore just that warning (a command-line filter takes precedence over the ini setting)
 # handle undefined PYTHON in `noarch: generic` outputs
+{% if PYTHON is not defined %}{% set PYTHON = "$PYTHON" %}{% endif %}
+
 package:
   name: {{ name|lower }}-meta
   version: {{ version }}
 
 source:
-  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: 344a218e8595117ce37396ed025d994f146d076226ebac59255a2fa085ab24d8
 
 build:
-  number: 0
-  skip: true  # [py<39]
+  number: {{ build }}
+  skip: True  # [py<39]
 
 requirements:
   host:
@@ -125,7 +127,7 @@ outputs:
   # without them a Segmentation fault happens on unix.
   - name: nbconvert-qtpdf
     build:
-      skip: true
+      skip: True
     requirements:
       host:
         - python
@@ -189,7 +191,7 @@ outputs:
   # Skipping because playwright-python is not available on the defaults channel
   - name: nbconvert-webpdf
     build:
-      skip: true
+      skip: True
     requirements:
       host:
         - python
