@@ -43,6 +43,8 @@ outputs:
         - {{ pin_subpackage("nbconvert-core", exact=True) }}
         - {{ pin_subpackage("nbconvert-pandoc", exact=True) }}
     test:
+      imports:
+        - nbconvert
       requires:
         - pip
       commands:
@@ -52,8 +54,8 @@ outputs:
         - jupyter nbconvert --help
         - jupyter dejavu --help
   - name: nbconvert-core
+    script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
     build:
-      script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
       entry_points:
         - jupyter-nbconvert = nbconvert.nbconvertapp:main
         - jupyter-dejavu = nbconvert.nbconvertapp:dejavu_main
@@ -118,7 +120,7 @@ outputs:
       license: BSD-3-Clause
       license_file: LICENSE
       description: nbconvert with extra packages for browser-based PDF generation
-      doc_url: https://nbconvert.readthedocs.org/
+      doc_url: https://nbconvert.readthedocs.io/
       dev_url: https://github.com/jupyter/nbconvert
   # Skipping nbconvert-qtpdf because it requires missing 'xelatex' on linux and 'PasteBoard' on osx;
   # without them a Segmentation fault happens on unix.
@@ -133,6 +135,8 @@ outputs:
         - {{ pin_subpackage("nbconvert-core", exact=True) }}
         - pyqtwebengine >=5.5
     test:
+      imports:
+        - nbconvert
       requires:
         - pip
         - ipython
@@ -154,7 +158,7 @@ outputs:
       license: BSD-3-Clause
       license_file: LICENSE
       description: nbconvert with extra packages for browser-based PDF generation
-      doc_url: https://nbconvert.readthedocs.org/
+      doc_url: https://nbconvert.readthedocs.io/
       dev_url: https://github.com/jupyter/nbconvert
   - name: nbconvert-pandoc
     requirements:
@@ -166,6 +170,8 @@ outputs:
         # the pin is handled by the `run_constrained` in nbconvert-core
         - pandoc
     test:
+      imports:
+        - nbconvert
       files:
         - check_pandoc.py
       requires:
@@ -182,7 +188,7 @@ outputs:
       license: BSD-3-Clause
       license_file: LICENSE
       description: nbconvert with extra packages for pandoc-based outputs
-      doc_url: https://nbconvert.readthedocs.org/
+      doc_url: https://nbconvert.readthedocs.io/
       dev_url: https://github.com/jupyter/nbconvert
   # Skipping because playwright-python is not available on the defaults channel
   - name: nbconvert-webpdf
@@ -196,6 +202,8 @@ outputs:
         - {{ pin_subpackage("nbconvert-core", exact=True) }}
         - playwright-python
     test:
+      imports:
+        - nbconvert
       source_files:
         - tests/files/notebook1.ipynb
       requires:
@@ -223,6 +231,8 @@ outputs:
         #- {{ pin_subpackage("nbconvert-webpdf", exact=True) }}
         - {{ pin_subpackage("nbconvert", exact=True) }}
     test:
+      imports:
+        - nbconvert
       source_files:
         - tests
         - pyproject.toml
@@ -249,7 +259,7 @@ outputs:
       license: BSD-3-Clause
       license_file: LICENSE
       description: nbconvert with all optional packages
-      doc_url: https://nbconvert.readthedocs.org/
+      doc_url: https://nbconvert.readthedocs.io/
       dev_url: https://github.com/jupyter/nbconvert
 
 about:
