@@ -131,7 +131,6 @@ outputs:
     requirements:
       host:
         - python
-        - pyqtwebengine {{ pyqtwebengine }}
       run:
         - python
         - {{ pin_subpackage("nbconvert-core", exact=True) }}
