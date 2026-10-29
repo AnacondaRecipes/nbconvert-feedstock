@@ -3,17 +3,7 @@
 {% set min_pandoc = "2.9.2" %}
 {% set max_pandoc = "4.0.0" %}
 {% set build = 1 %}
-{% set pytest_args = '-k "not (test_post_processor or test_convert_full_qualified_name)"' %}  # [not win]
-{% set pytest_args = '-k "not (test_preprocess_cell or test_populate_language_info or test_executenb or test_post_processor or test_convert_full_qualified_name or test_convert_explicitly_relative_paths or test_basic_execution or test_mixed_markdown_execution)"' %}  # [win]
-{% set pytest_warn = '-W "ignore:Parsing dates involving a day of month:DeprecationWarning"' %}
 
-# from nbconvert/utils/pandoc.py
-# skipping test_post_processor and test_convert_full_qualified_name as they expect tests to be a module
-# skipping test_convert_explicitly_relative_paths because it tries to access '/home/user/src' on Windows
-# skipping test_basic_execution or test_mixed_markdown_execution on win because of RuntimeWarning: Proactor event loop does not implement add_reader family of methods required for zmq.
-# nbclient 0.5.x calls datetime.strptime("1", "%d") at import time, which raises a
-# DeprecationWarning on Python >=3.14; nbconvert's pyproject enables filterwarnings=error,
-# so ignore just that warning (a command-line filter takes precedence over the ini setting)
 package:
   name: {{ name|lower }}-meta
   version: {{ version }}
@@ -230,6 +220,16 @@ outputs:
         #- {{ pin_subpackage("nbconvert-qtpdf", exact=True) }}
         #- {{ pin_subpackage("nbconvert-webpdf", exact=True) }}
         - {{ pin_subpackage("nbconvert", exact=True) }}
+    # from nbconvert/utils/pandoc.py
+    # skipping test_post_processor and test_convert_full_qualified_name as they expect tests to be a module
+    # skipping test_convert_explicitly_relative_paths because it tries to access '/home/user/src' on Windows
+    # skipping test_basic_execution or test_mixed_markdown_execution on win because of RuntimeWarning: Proactor event loop does not implement add_reader family of methods required for zmq.
+    {% set pytest_args = '-k "not (test_post_processor or test_convert_full_qualified_name)"' %}  # [not win]
+    {% set pytest_args = '-k "not (test_preprocess_cell or test_populate_language_info or test_executenb or test_post_processor or test_convert_full_qualified_name or test_convert_explicitly_relative_paths or test_basic_execution or test_mixed_markdown_execution)"' %}  # [win]
+    # nbclient 0.5.x calls datetime.strptime("1", "%d") at import time, which raises a
+    # DeprecationWarning on Python >=3.14; nbconvert's pyproject enables filterwarnings=error,
+    # so ignore just that warning (a command-line filter takes precedence over the ini setting)
+    {% set pytest_warn = '-W "ignore:Parsing dates involving a day of month:DeprecationWarning"' %}
     test:
       imports:
         - nbconvert
