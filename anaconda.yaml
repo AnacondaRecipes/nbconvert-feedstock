@@ -7,3 +7,5 @@ upstream_sources:
       - nbconvert-all
       - nbconvert-core
       - nbconvert-pandoc
+      - nbconvert-qtpdf
+      - nbconvert-webpdf
