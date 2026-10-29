@@ -54,8 +54,8 @@ outputs:
         - jupyter nbconvert --help
         - jupyter dejavu --help
   - name: nbconvert-core
-    script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
     build:
+      script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
       entry_points:
         - jupyter-nbconvert = nbconvert.nbconvertapp:main
         - jupyter-dejavu = nbconvert.nbconvertapp:dejavu_main
